@@ -1,70 +1,65 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <meta charset="UTF-8">
-  <!-- Tambahkan minimal-ui untuk perilaku lebih baik di iOS/Android -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <!-- Viewport ini memaksa browser agar tidak melakukan auto-zoom -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>SYNC.HEALTH CARE</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
   <style>
-/* Tambahkan ini di paling atas CSS Anda */
-  @viewport {
-    width: device-width;
-    zoom: 1.0;
-  }
-   /* 1. RESET & LAYOUT DASAR */
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  touch-action: manipulation;
-  overflow: hidden; 
-  background-color: #F8F9FA; /* Samakan dengan warna background Apps Script */
-  font-family: 'Inter', sans-serif;
-}
+    /* Reset CSS dasar */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #F8F9FA;
+      font-family: 'Inter', sans-serif;
+    }
 
-.app-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh; /* Memastikan wrapper mengikuti tinggi layar perangkat */
-}
+    .app-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      height: 100vh;
+    }
 
-/* 2. HEADER */
-.main-header {
-  background-color: #F8F9FA;
-  color: #064E3B;
-  height: 35px;
-  padding: 0 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #064E3B;
-  font-size: 0.8rem;
-  flex-shrink: 0; /* Mencegah header mengecil/tertekan */
-}
+    /* Header tetap di atas */
+    .main-header {
+      height: 35px;
+      padding: 0 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #064E3B;
+      background-color: #F8F9FA;
+      color: #064E3B;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
 
-/* 3. AREA IFRAME */
-.work-space {
-  flex: 1; /* Ini mengambil semua ruang yang tersisa setelah header */
-  width: 100%;
-  position: relative;
-  background-color: #F8F9FA;
-  overflow: auto; 
-}
+    /* Work space mengambil sisa ruang */
+    .work-space {
+      flex: 1;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
 
-.work-space iframe {
-  width: 100%;    /* Mengikuti lebar parent (work-space) */
-  height: 100%;   /* Mengikuti tinggi parent (work-space) */
-  border: none;
-  display: block;
-}
-    /* 4. LOADING TRANSISI */
+    /* KUNCI: Membuat iframe mengisi ruang workspace tanpa paksaan vh/vw yang salah */
+    .work-space iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* Loading Screen tetap di atas */
     .loading-screen {
       position: absolute;
       top: 0;
@@ -77,6 +72,7 @@ html, body {
       justify-content: center;
       align-items: center;
       z-index: 10;
+      transition: opacity 0.3s ease;
     }
 
     .header-title i {
@@ -124,7 +120,7 @@ html, body {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-  </style>
+</style>
 </head>
 <body>
 
@@ -145,11 +141,10 @@ html, body {
       </div>
       
       <iframe 
-      src="https://script.google.com/macros/s/AKfycbyWgW4YficpmzXTj-gzv9iYREg2N3A8i-c_UQOls8yAAyZa2S3DaGJ3RoBvp2_N7LEk/exec"
-      allow="camera; microphone; geolocation; fullscreen"
-      style="width: 100%; height: 100%; border: none; overflow: hidden;"
-      scrolling="no">
-    </iframe>
+        src="https://script.google.com/macros/s/AKfycbyWgW4YficpmzXTj-gzv9iYREg2N3A8i-c_UQOls8yAAyZa2S3DaGJ3RoBvp2_N7LEk/exec"
+        allow="camera; microphone; geolocation; fullscreen"
+        onload="hilangkanLoader()">
+      </iframe>
     </main>
   </div>
 
@@ -161,22 +156,6 @@ html, body {
         setTimeout(() => { loader.style.display = 'none'; }, 300);
       }
     }
-    
-function checkOrientation() {
-    const iframe = document.querySelector('iframe');
-    // Memaksa iframe untuk menyesuaikan lebar layar setiap ada perubahan orientasi
-    if (window.innerHeight > window.innerWidth) {
-      iframe.style.width = '100vw';
-      iframe.style.height = '100vh';
-    } else {
-      iframe.style.width = '100vw';
-      iframe.style.height = '100vh';
-    }
-  }
-
-  // Jalankan saat halaman dimuat dan saat HP diputar
-  window.addEventListener('orientationchange', checkOrientation);
-  window.addEventListener('load', checkOrientation);
   </script>
 </body>
 </html>
