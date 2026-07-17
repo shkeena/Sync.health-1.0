@@ -58,6 +58,20 @@
   border: none;
   display: block;
 }
+/* Memaksa iframe agar selalu responsif mengikuti perubahan orientasi HP */
+  @media screen and (orientation: portrait) {
+    .work-space iframe {
+      width: 100vw !important;
+      height: 100vh !important;
+    }
+  }
+
+  /* Mengatasi masalah address bar HP yang sering memotong tampilan */
+  @media screen and (max-height: 800px) {
+    .work-space {
+      height: 100% !important;
+    }
+  }
 
     /* Loading Screen tetap di atas */
     .loading-screen {
